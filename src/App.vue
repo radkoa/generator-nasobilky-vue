@@ -122,9 +122,9 @@ export default {
         this.exercises.push(exercise);
       }
     },
-    printWindow() {		
-	    window.print();
-    }
+    printWindow() {
+      window.print();
+    },
   },
 };
 </script>
