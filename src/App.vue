@@ -53,7 +53,8 @@
           required
         />
         <br /><br />
-        <button type="submit">Generuj</button>
+        <button type="submit">Generuj</button>&nbsp;
+        <button @click="printWindow()">Tisk</button>
       </form>
       <br /><br />
     </div>
@@ -121,6 +122,9 @@ export default {
         this.exercises.push(exercise);
       }
     },
+    printWindow() {		
+	    window.print();
+    }
   },
 };
 </script>
