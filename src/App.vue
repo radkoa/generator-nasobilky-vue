@@ -90,6 +90,10 @@
 
 <script>
 export default {
+  name: "Generator",
+  created() {
+    document.title = "Generátor příkladů malé násobilky";
+  },
   data() {
     return {
       numExercises: 30,
