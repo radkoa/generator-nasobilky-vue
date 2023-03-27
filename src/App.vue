@@ -3,16 +3,6 @@
     <div class="noprint">
       <h1>Generátor příkladů malé násobilky</h1>
       <form @submit.prevent="generateExercises">
-        <label for="numExercises">Počet příkladů: </label>
-        <input
-          type="number"
-          id="numExercises"
-          v-model.number="numExercises"
-          min="1"
-          max="100"
-          required
-        />
-        <br /><br />
         <label for="maxNumber">Největší činitel 1: </label>
         <input
           type="number"
@@ -30,6 +20,30 @@
           v-model.number="maxFactor2"
           min="1"
           max="10"
+          required
+        />
+        <br /><br />
+        <label for="maxNumber">Vynechat nuly: </label>
+        <input
+          type="checkbox"
+          id="excludeZeroes"
+          v-model.number="excludeZeroes"
+        />
+        <br /><br />
+        <label for="maxNumber">Jedninečné příklady: </label>
+        <input
+          type="checkbox"
+          id="exludeDuplicates"
+          v-model.number="excludeDuplicates"
+        />
+        <br /><br />
+        <label for="numExercises">Max. počet příkladů: </label>
+        <input
+          type="number"
+          id="numExercises"
+          v-model.number="numExercises"
+          min="1"
+          max="100"
           required
         />
         <br /><br />
@@ -99,6 +113,8 @@ export default {
       numExercises: 30,
       maxFactor1: 2,
       maxFactor2: 10,
+      excludeZeroes: false,
+      excludeDuplicates: false,
       numColumns: 3,
       numRows: 10,
       exercises: [],
@@ -114,15 +130,55 @@ export default {
       }
       return exerciseRows;
     },
+    maxNumExercises() {
+      return (this.maxFactor1 + 1) * (this.maxFactor2 + 1);
+    },
+    numExercisesAdjusted() {
+      if (this.excludeDuplicates) {
+        return Math.min(this.numExercises, this.maxNumExercises);
+      } else {
+        return this.numExercises;
+      }
+    },
   },
   methods: {
     generateExercises() {
+      // Clear the exercises array
       this.exercises = [];
-      this.answers = [];
-      for (let i = 0; i < this.numExercises; i++) {
-        const num1 = Math.floor(Math.random() * (this.maxFactor1 + 1));
-        const num2 = Math.floor(Math.random() * (this.maxFactor2 + 1));
+
+      // Create an array to store all possible factor pairs
+      const factorPairs = [];
+      for (let i = 1; i <= this.maxFactor1; i++) {
+        for (let j = 1; j <= this.maxFactor2; j++) {
+          factorPairs.push([i, j]);
+        }
+      }
+
+      // Filter out any factor pairs that include a zero if excludeZeroes is set to true
+      if (this.excludeZeroes) {
+        factorPairs.filter(([num1, num2]) => num1 !== 0 && num2 !== 0);
+      }
+
+      // Remove any duplicate factor pairs if excludeDuplicates is set to true
+      if (this.excludeDuplicates) {
+        const uniqueFactorPairs = new Set(
+          factorPairs.map((pair) => pair.join("-"))
+        );
+        factorPairs.length = 0;
+        uniqueFactorPairs.forEach((pair) =>
+          factorPairs.push(pair.split("-").map(Number))
+        );
+        this.numExercises = Math.min(factorPairs.length, this.numExercises);
+      }
+
+      // Generate exercises by randomly selecting factor pairs from the remaining pairs
+      while (this.exercises.length < this.numExercises) {
+        const index = Math.floor(Math.random() * factorPairs.length);
+        const [num1, num2] = factorPairs[index];
+        factorPairs.splice(index, 1);
+
         const exercise = `${num1} · ${num2}`;
+
         this.exercises.push(exercise);
       }
     },
