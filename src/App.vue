@@ -148,8 +148,8 @@ export default {
 
       // Create an array to store all possible factor pairs
       const factorPairs = [];
-      for (let i = 1; i <= this.maxFactor1; i++) {
-        for (let j = 1; j <= this.maxFactor2; j++) {
+      for (let i = 0; i <= this.maxFactor1; i++) {
+        for (let j = 0; j <= this.maxFactor2; j++) {
           factorPairs.push([i, j]);
         }
       }
