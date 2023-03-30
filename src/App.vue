@@ -32,7 +32,7 @@
           v-model.number="excludeZeroes"
         />
         <br /><br />
-        <label for="maxNumber">Jedninečné příklady: </label>
+        <label for="maxNumber">Neopakovat příklady: </label>
         <input
           type="checkbox"
           id="exludeDuplicates"
@@ -59,8 +59,9 @@
           max="5"
           required
         />
+        <input type="range" v-model.number="numColumns" min="1" max="10" step="1">
         <br /><br />
-        <label for="numRows">Počet řádků: </label>
+        <label for="numRows">Max. počet řádků: </label>
         <input
           type="number"
           id="numRows"
@@ -69,6 +70,7 @@
           max="50"
           required
         />
+        <input type="range" v-model.number="numRows" min="1" max="100" step="1">
         <br /><br />
         <button type="submit">Generuj</button>&nbsp;
         <button @click="printWindow()">Tisk</button>
