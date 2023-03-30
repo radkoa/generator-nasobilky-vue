@@ -156,18 +156,11 @@ export default {
 
       // Filter out any factor pairs that include a zero if excludeZeroes is set to true
       if (this.excludeZeroes) {
-        factorPairs.filter(([num1, num2]) => num1 !== 0 && num2 !== 0);
+        factorPairs.splice(0, factorPairs.length, ...factorPairs.filter(([num1, num2]) => num1 !== 0 && num2 !== 0));
       }
 
-      // Remove any duplicate factor pairs if excludeDuplicates is set to true
+      // Reduce the numExercises if excludeDuplicates is true
       if (this.excludeDuplicates) {
-        const uniqueFactorPairs = new Set(
-          factorPairs.map((pair) => pair.join("-"))
-        );
-        factorPairs.length = 0;
-        uniqueFactorPairs.forEach((pair) =>
-          factorPairs.push(pair.split("-").map(Number))
-        );
         this.numExercises = Math.min(factorPairs.length, this.numExercises);
       }
 
@@ -175,7 +168,9 @@ export default {
       while (this.exercises.length < this.numExercises) {
         const index = Math.floor(Math.random() * factorPairs.length);
         const [num1, num2] = factorPairs[index];
-        factorPairs.splice(index, 1);
+        if (this.excludeDuplicates) {
+          factorPairs.splice(index, 1);
+        }
 
         const exercise = `${num1} · ${num2}`;
 
