@@ -12,6 +12,7 @@
           max="10"
           required
         />
+        <input type="range" v-model.number="maxFactor1" min="1" max="10" step="1">
         <br /><br />
         <label for="maxNumber">Největší činitel 2: </label>
         <input
@@ -22,6 +23,7 @@
           max="10"
           required
         />
+        <input type="range" v-model.number="maxFactor2" min="1" max="10" step="1">
         <br /><br />
         <label for="maxNumber">Vynechat nuly: </label>
         <input
@@ -46,6 +48,7 @@
           max="100"
           required
         />
+        <input type="range" v-model.number="numExercises" min="1" max="100" step="1">
         <br /><br />
         <label for="numColumns">Počet sloupečků: </label>
         <input
