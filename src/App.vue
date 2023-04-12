@@ -115,13 +115,13 @@ export default {
   },
   data() {
     return {
-      numExercises: 30,
-      maxFactor1: 2,
-      maxFactor2: 10,
-      excludeZeroes: false,
+      numExercises: 76,
+      maxFactor1: 9,
+      maxFactor2: 9,
+      excludeZeroes: true,
       excludeDuplicates: false,
-      numColumns: 3,
-      numRows: 10,
+      numColumns: 4,
+      numRows: 19,
       exercises: [],
     };
   },
