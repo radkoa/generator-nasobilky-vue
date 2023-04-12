@@ -205,9 +205,4 @@ table {
   color: silver;
   text-decoration: none;
 }
-@media print {
-  .noprint {
-    display: none;
-  }
-}
 </style>
